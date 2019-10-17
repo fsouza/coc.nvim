@@ -1,0 +1,17 @@
+name: Sync Upstream
+on:
+  push:
+    branches:
+      - '*'
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - run: |
+          git switch master
+          git fetch https://github.com/neoclide/coc.nvim.git master
+          git rebase FETCH_HEAD
+          git push -f origin master
