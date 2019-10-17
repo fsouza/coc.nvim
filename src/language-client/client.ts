@@ -1697,7 +1697,7 @@ class CompletionItemFeature extends TextDocumentFeature<
     completion.dynamicRegistration = true
     completion.contextSupport = true
     completion.completionItem = {
-      snippetSupport: true,
+      snippetSupport: false,
       commitCharactersSupport: true,
       documentationFormat: [MarkupKind.Markdown, MarkupKind.PlainText],
       deprecatedSupport: true,
