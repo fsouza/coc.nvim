@@ -10,8 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1.0.0
-      - run: |
+      - name: sync changes
+        run: |
           git switch master
           git fetch https://github.com/neoclide/coc.nvim.git master
           git rebase FETCH_HEAD
-          git push -f origin master
+      - name: push changes
+        uses: ad-m/github-push-action@8c101cbc1e99523a39427f8690bbb08ed9d47c19
+        with:
+          force: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
