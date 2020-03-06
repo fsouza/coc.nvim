@@ -1,0 +1,21 @@
+name: Sync Upstream
+on:
+  schedule:
+    - cron: "3 * * * *"
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - name: sync changes
+        run: |
+          git switch master
+          git config --local user.name 'fsouzabot'
+          git config --local user.email '61857152+fsouzabot@users.noreply.github.com'
+          git fetch https://github.com/neoclide/coc.nvim.git master
+          git merge --no-ff FETCH_HEAD
+      - name: push changes
+        uses: ad-m/github-push-action@fe38f0a751bf9149f0270cc1fe20bf9156854365
+        with:
+          force: true
+          github_token: ${{ secrets.BOT_GH_TOKEN }}
