@@ -340,6 +340,9 @@ export default class Plugin extends EventEmitter {
         case 'diagnosticInfo':
           await diagnosticManager.echoMessage()
           break
+        case 'diagnosticInfoFloat':
+          await diagnosticManager.echoMessage(false, true)
+          break
         case 'diagnosticNext':
           await diagnosticManager.jumpNext(args[1])
           break

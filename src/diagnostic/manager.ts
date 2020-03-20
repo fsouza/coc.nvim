@@ -440,11 +440,11 @@ export class DiagnosticManager implements Disposable {
   /**
    * Echo diagnostic message of currrent position
    */
-  public async echoMessage(truncate = false): Promise<void> {
+  public async echoMessage(truncate = false, forceFloat = false): Promise<void> {
     const config = this.config
     if (!this.enabled || config.enableMessage == 'never') return
     if (this.timer) clearTimeout(this.timer)
-    let useFloat = config.messageTarget == 'float'
+    let useFloat = forceFloat || config.messageTarget == 'float'
     let [bufnr, cursor] = await this.nvim.eval('[bufnr("%"),coc#util#cursor()]') as [number, [number, number]]
     if (useFloat) {
       let { buffer } = this.floatFactory
