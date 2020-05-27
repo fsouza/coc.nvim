@@ -6,15 +6,13 @@
   <p align="center">
     <a href="/LICENSE.md"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <a href="https://salt.bountysource.com/teams/coc-nvim"><img alt="Bountysource" src="https://img.shields.io/bountysource/team/coc-nvim/activity.svg?style=flat-square"></a>
-    <a href="https://github.com/neoclide/coc.nvim/actions"><img alt="Actions" src="https://github.com/neoclide/coc.nvim/workflows/coc.nvim%20CI/badge.svg?style=flat-square"></a>
+    <a href="https://github.com/neoclide/coc.nvim/actions"><img alt="Actions" src="https://img.shields.io/github/workflow/status/neoclide/coc.nvim/coc.nvim%20CI?style=flat-square"></a>
     <a href="/doc/coc.txt"><img alt="Doc" src="https://img.shields.io/badge/doc-%3Ah%20coc.txt-brightgreen.svg?style=flat-square"></a>
     <a href="https://gitter.im/neoclide/coc.nvim"><img alt="Gitter" src="https://img.shields.io/gitter/room/neoclide/coc.nvim.svg?style=flat-square"></a>
   </p>
 </p>
 
 ---
-
-An featured javascript engine for Vim8/Neovim.
 
 <img alt="Gif" src="https://user-images.githubusercontent.com/251450/55285193-400a9000-53b9-11e9-8cff-ffe4983c5947.gif" width="60%" />
 
@@ -51,10 +49,10 @@ Checkout [Install
 coc.nvim](https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim) for
 more info.
 
-Next you **have to** install coc extension or configure language servers for
+You **have to** install coc extension or configure language servers for
 LSP support.
 
-Install extension to get LSP support:
+Install extensions like:
 
     :CocInstall coc-json coc-tsserver
 
@@ -62,21 +60,25 @@ Or configure language server in `coc-settings.json` opened by
 `:CocConfig`, like:
 
 ```json
-"languageserver": {
-  "command": "gopls",
-  "rootPatterns": ["go.mod"],
-  "trace.server": "verbose",
-  "filetypes": ["go"]
+{
+  "languageserver": {
+    "command": "gopls",
+    "rootPatterns": ["go.mod"],
+    "trace.server": "verbose",
+    "filetypes": ["go"]
+  }
 }
 ```
 
-Next read wiki more details:
+Checkout wiki for more details:
 
 - [Completion with sources](https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources)
 - [Using the configuration file](https://github.com/neoclide/coc.nvim/wiki/Using-the-configuration-file)
 - [Using coc extensions](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions)
 - [Configure language servers](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
 - [F.A.Q](https://github.com/neoclide/coc.nvim/wiki/F.A.Q)
+
+Checkout `:h coc-nvim` for vim interface.
 
 ## Example vim configuration
 
