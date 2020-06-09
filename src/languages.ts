@@ -28,7 +28,6 @@ import WorkspaceSymbolManager from './provider/workspaceSymbolsManager'
 import snippetManager from './snippets/manager'
 import sources from './sources'
 import { CompleteOption, CompleteResult, CompletionContext, DiagnosticCollection, Documentation, ISource, SourceType, VimCompleteItem } from './types'
-import { wait } from './util'
 import * as complete from './util/complete'
 import { getChangedFromEdits, rangeOverlap } from './util/position'
 import { byteLength, byteIndex, byteSlice } from './util/string'
@@ -45,7 +44,6 @@ interface CompleteConfig {
   defaultKindText: string
   priority: number
   echodocSupport: boolean
-  waitTime: number
   detailMaxLength: number
   detailField: string
   invalidInsertCharacters: string[]
@@ -167,7 +165,6 @@ class Languages {
       defaultKindText: labels['default'] || '',
       priority: getConfig<number>('languageSourcePriority', 99),
       echodocSupport: getConfig<boolean>('echodocSupport', false),
-      waitTime: getConfig<number>('triggerCompletionWait', 60),
       detailField: getConfig<string>('detailField', 'menu'),
       detailMaxLength: getConfig<number>('detailMaxLength', 100),
       invalidInsertCharacters: getConfig<string[]>('invalidInsertCharacters', [' ', '(', '<', '{', '[', '\r', '\n']),
@@ -519,7 +516,6 @@ class Languages {
     priority = priority == null ? this.completeConfig.priority : priority
     // index set of resolved items
     let resolvedIndexes: Set<number> = new Set()
-    let waitTime = Math.min(Math.max(50, this.completeConfig.waitTime), 300)
     let source: ISource = {
       name,
       priority,
@@ -541,7 +537,6 @@ class Languages {
         } else if (isTrigger) {
           triggerKind = CompletionTriggerKind.TriggerCharacter
         }
-        if (opt.triggerCharacter) await wait(waitTime)
         if (token.isCancellationRequested) return null
         let position = complete.getPosition(opt)
         let context: CompletionContext = { triggerKind, option: opt }
@@ -699,13 +694,11 @@ class Languages {
     let start = line.substr(0, range.start.character)
     let end = line.substr(range.end.character)
     if (isSnippet) {
-      await doc.applyEdits([{
-        range: Range.create(linenr - 1, 0, linenr, 0),
-        newText: `${start}${end}\n`
-      }])
+      let currline = doc.getline(linenr - 1)
+      let endCharacter = currline.length - end.length
+      let r = Range.create(linenr - 1, range.start.character, linenr - 1, endCharacter)
       // can't select, since additionalTextEdits would break selection
-      let pos = Position.create(linenr - 1, range.start.character)
-      return await snippetManager.insertSnippet(newText, false, Range.create(pos, pos))
+      return await snippetManager.insertSnippet(newText, false, r)
     }
     let newLines = `${start}${newText}${end}`.split('\n')
     if (newLines.length == 1) {
