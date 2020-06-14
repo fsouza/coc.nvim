@@ -347,6 +347,9 @@ export default class Plugin extends EventEmitter {
     this.addAction('currentWorkspacePath', () => {
       return workspace.rootPath
     })
+    this.addAction('addCommand', cmd => {
+      this.addCommand(cmd)
+    })
     workspace.onDidChangeWorkspaceFolders(() => {
       nvim.setVar('WorkspaceFolders', workspace.folderPaths, true)
     })
